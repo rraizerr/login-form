@@ -1,17 +1,24 @@
-import { Table, Form } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 import UserListControl from "../userListControl/userListControl"
 import "./userList.css"
 
-function UserList({ createUsersList }) {
+function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete }) {
 
     const usersList = createUsersList.map(({ name, surname, email, regDate, lastSession, id, isAuth, blocked }) => {
+        let classes = [];
         let status;
         isAuth ? status = "online" : status = "offline";
+
+        if (blocked) {
+            classes.push("blocked")
+        }
+
         return (
-            <tr key={id}>
+            <tr key={id}
+                className={classes.join(" ")}>
                 <td>
-                    <Form.Check aria-label={id} />
+                    <input type="checkbox" name="" id={id} onChange={(e) => onCheckboxChange(e)} />
                 </td>
                 <td>{id}</td>
                 <td>{name} {surname}</td>
@@ -25,12 +32,14 @@ function UserList({ createUsersList }) {
     })
     return (
         <div className="main">
-            <UserListControl />
+            <UserListControl
+                onToggleBlocked={onToggleBlocked}
+                onDelete={onDelete} />
             <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>
-                            <Form.Check aria-label="option 0" />
+                            <input type="checkbox" name="" id="all" onChange={(e) => onCheckboxChange(e)} />
                         </th>
                         <th>#id</th>
                         <th>Name</th>
@@ -42,7 +51,8 @@ function UserList({ createUsersList }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {usersList}
+                    {usersList.length ? <>{usersList}</> : <tr><td colSpan="8" className="text-center">Users list is empty</td></tr>}
+                    {/* {usersList} */}
                 </tbody>
             </Table>
         </div>

@@ -1,3 +1,8 @@
 .main {
     width: 1000px;
 }
+
+.blocked > td,
+.blocked > th {
+    color: rgb(204, 204, 204) !important;
+}

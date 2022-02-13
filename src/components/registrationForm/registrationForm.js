@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 import "./registrationForm.css";
 
-function RegistrationForm() {
+function RegistrationForm({ addUser }) {
 
     const [validated, setValidated] = useState(false);
-
+    // let currentDate;
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -18,9 +18,21 @@ function RegistrationForm() {
         setValidated(true);
     };
 
+    // function getDate() {
+    //     const newDate = new Date();
+    //     const hours = newDate.getHours();
+    //     const minutes = newDate.getMinutes();
+    //     const day = newDate.getDate();
+    //     const month = newDate.getMonth() + 1;
+    //     const year = newDate.getFullYear();
+    //     currentDate = `${hours}:${minutes} ${day}.${month}.${year}`
+    //     return currentDate;
+    // }
+    // getDate();
+
     return (
         <div className="container">
-            <Form className="form" noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form className="form" noValidate validated={validated} onSubmit={addUser}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                         <Form.Label>First name</Form.Label>
@@ -29,6 +41,7 @@ function RegistrationForm() {
                             type="text"
                             placeholder="First name"
                             defaultValue="Mark"
+                            name="name"
                         />
                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
@@ -39,6 +52,7 @@ function RegistrationForm() {
                             type="text"
                             placeholder="Last name"
                             defaultValue="Otto"
+                            name="surname"
                         />
                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
@@ -50,6 +64,7 @@ function RegistrationForm() {
                                 type="text"
                                 placeholder="Username"
                                 aria-describedby="inputGroupPrepend"
+                                name="email"
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
@@ -65,6 +80,7 @@ function RegistrationForm() {
                                 type="Password"
                                 placeholder="Password"
                                 aria-describedby="inputGroupPrepend"
+                                name="password"
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
@@ -86,7 +102,7 @@ function RegistrationForm() {
                 <Button type="submit">Sign Up</Button>
                 <Col md={{ span: 6, offset: 7 }}>
                     <p className="sign-in">
-                        Already have an account? <Link to="/">Sing In</Link>
+                        Already have an account? <Link to="/userslist">Sing In</Link>
                     </p>
                 </Col>
             </Form>
