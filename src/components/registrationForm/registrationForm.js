@@ -2,37 +2,48 @@ import { Form, Row, InputGroup, Col, Button } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import GetDate from "../getDate/getDate";
 import "./registrationForm.css";
 
-function RegistrationForm({ addUser }) {
+function RegistrationForm({ addUser, usersData }) {
 
     const [validated, setValidated] = useState(false);
-    // let currentDate;
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            e.stopPropagation();
+        } else {
+            console.log("Отправка");
+            checkSameName(e);
         }
 
         setValidated(true);
     };
 
-    // function getDate() {
-    //     const newDate = new Date();
-    //     const hours = newDate.getHours();
-    //     const minutes = newDate.getMinutes();
-    //     const day = newDate.getDate();
-    //     const month = newDate.getMonth() + 1;
-    //     const year = newDate.getFullYear();
-    //     currentDate = `${hours}:${minutes} ${day}.${month}.${year}`
-    //     return currentDate;
-    // }
-    // getDate();
+    const checkSameName = (e) => {
+        let checkTheSame = false;
+        const currentDate = GetDate();
+        usersData.forEach(item => {
+            if (item.email === e.target.email.value) {
+                checkTheSame = true;
+                handleBlur();
+            }
+        });
+        checkTheSame ? console.log("Выберите новый email") : addUser(e, currentDate);
+    }
+
+    const handleBlur = (e) => {
+        console.log("Есть совпадение");
+    }
 
     return (
         <div className="container">
-            <Form className="form" noValidate validated={validated} onSubmit={addUser}>
+            <Form className="form"
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                         <Form.Label>First name</Form.Label>
@@ -102,7 +113,7 @@ function RegistrationForm({ addUser }) {
                 <Button type="submit">Sign Up</Button>
                 <Col md={{ span: 6, offset: 7 }}>
                     <p className="sign-in">
-                        Already have an account? <Link to="/userslist">Sing In</Link>
+                        Already have an account? <Link to="/login">Sing In</Link>
                     </p>
                 </Col>
             </Form>

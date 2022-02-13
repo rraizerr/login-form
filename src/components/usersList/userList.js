@@ -3,9 +3,9 @@ import { Table } from "react-bootstrap";
 import UserListControl from "../userListControl/userListControl"
 import "./userList.css"
 
-function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete }) {
+function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete, onCheckboxAllChange, allCheckBoxState }) {
 
-    const usersList = createUsersList.map(({ name, surname, email, regDate, lastSession, id, isAuth, blocked }) => {
+    const usersList = createUsersList.map(({ name, surname, email, regDate, lastSession, id, isAuth, blocked, checked }) => {
         let classes = [];
         let status;
         isAuth ? status = "online" : status = "offline";
@@ -18,7 +18,7 @@ function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete
             <tr key={id}
                 className={classes.join(" ")}>
                 <td>
-                    <input type="checkbox" name="" id={id} onChange={(e) => onCheckboxChange(e)} />
+                    <input type="checkbox" name="" checked={checked} id={id} onChange={(e) => onCheckboxChange(e)} />
                 </td>
                 <td>{id}</td>
                 <td>{name} {surname}</td>
@@ -39,7 +39,7 @@ function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete
                 <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" name="" id="all" onChange={(e) => onCheckboxChange(e)} />
+                            <input type="checkbox" name="" id="all" checked={allCheckBoxState} onChange={(e) => onCheckboxAllChange(e)} />
                         </th>
                         <th>#id</th>
                         <th>Name</th>
