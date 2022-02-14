@@ -22,8 +22,6 @@ class App extends Component {
         e.preventDefault();
         const mail = e.target.email.value;
         const pass = e.target.password.value;
-        console.log(mail);
-        console.log(pass);
 
         this.state.data.forEach(item => {
             if (item.email === mail && item.password === pass && !item.blocked) {
@@ -76,14 +74,12 @@ class App extends Component {
     }
 
     onCheckboxChange = (e) => {
-        const checkboxCheked = e.target.checked;
         const checkboxId = e.target.id;
-        console.log(`чекбокс ${checkboxId} выбран - ${checkboxCheked}`);
+
         this.setState(({ data, allCheckBoxState }) => {
             const checkedData = data.map(item =>
                 +checkboxId === item.id ? { ...item, checked: !item.checked } : item);
 
-            console.log(checkedData);
             return {
                 data: checkedData,
                 allCheckBoxState
@@ -92,7 +88,6 @@ class App extends Component {
     }
 
     onToggleBlocked = (e) => {
-
         this.setState(({ data }) => {
             const onUnblockItem = data.map(item => {
                 if (e.target.name === "block" && item.checked) {
@@ -116,7 +111,6 @@ class App extends Component {
                 data: data.filter(item => item.checked !== true),
                 allCheckBoxState: false
             }
-
         })
     }
 
@@ -125,14 +119,10 @@ class App extends Component {
         const { data } = this.state;
         let userStatus = false;
 
-        data.forEach(item => {
-            if (item.isAuth && !item.blocked) {
-                userStatus = true;
-            } else {
-                item.isAuth = false;
-            }
-        })
-        console.log(`Доступ к закрытой странице - ${userStatus}`);
+        data.forEach(item =>
+            item.isAuth && !item.blocked
+                ? userStatus = true
+                : item.isAuth = false)
 
         return (
             <Router>

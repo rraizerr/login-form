@@ -14,7 +14,6 @@ function LoginForm({ checkLoginData }) {
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
-            console.log("Вход");
             checkLoginData(e)
         }
 
@@ -39,7 +38,6 @@ function LoginForm({ checkLoginData }) {
                     We'll never share your email with anyone else.
                 </Form.Text>
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control

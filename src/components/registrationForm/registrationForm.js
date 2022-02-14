@@ -1,6 +1,6 @@
 import { Form, Row, InputGroup, Col, Button } from "react-bootstrap";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Router } from "react-router-dom";
 
 import GetDate from "../getDate/getDate";
 import "./registrationForm.css";
@@ -8,16 +8,14 @@ import "./registrationForm.css";
 function RegistrationForm({ addUser, usersData }) {
 
     const [validated, setValidated] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-        } else {
-            console.log("Отправка");
-            checkSameName(e);
-        }
+        form.checkValidity() === false
+            ? e.stopPropagation()
+            : checkSameName(e);
 
         setValidated(true);
     };
@@ -28,14 +26,14 @@ function RegistrationForm({ addUser, usersData }) {
         usersData.forEach(item => {
             if (item.email === e.target.email.value) {
                 checkTheSame = true;
-                handleBlur();
             }
         });
-        checkTheSame ? console.log("Выберите новый email") : addUser(e, currentDate);
-    }
-
-    const handleBlur = (e) => {
-        console.log("Есть совпадение");
+        if (checkTheSame) {
+            alert("A user with this email address is already registered. Please choose another email")
+        } else {
+            addUser(e, currentDate);
+            history.push("/login");
+        }
     }
 
     return (
@@ -99,9 +97,7 @@ function RegistrationForm({ addUser, usersData }) {
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
-
                 </Row>
-
                 <Form.Group className="mb-3">
                     <Form.Check
                         required
@@ -117,6 +113,7 @@ function RegistrationForm({ addUser, usersData }) {
                     </p>
                 </Col>
             </Form>
+            <Router history={history} />
         </div>
     )
 }
