@@ -7,8 +7,8 @@ function UserListControl({ onToggleBlocked, onDelete }) {
     return (
         <div className="buttons-container">
             <Button variant="warning" name="block" onClick={(e) => onToggleBlocked(e)}>Block</Button>
-            <Button variant="success" name="unBlock" onClick={(e) => onToggleBlocked(e)}>Unblock</Button>
-            <Button variant="danger" name="delete" onClick={() => onDelete()}>Delete</Button>
+            <Button className="fa fa-unlock" variant="success" name="unBlock" onClick={(e) => onToggleBlocked(e)}></Button>
+            <Button className="fa fa-trash" variant="danger" name="delete" onClick={() => onDelete()}></Button>
         </div>
     );
 }

@@ -5,14 +5,16 @@ import LoginForm from "../loginForm/loginForm";
 import RegistrationForm from "../registrationForm/registrationForm";
 import UserList from "../usersList/userList";
 import GetDate from "../getDate/getDate";
+
+import bcrypt from "bcryptjs";
 import './App.css';
 
 class App extends Component {
     state = {
         data: [
-            { name: "Mark", surname: "Otto", email: "otto.m@gmail.com", password: "1", regDate: "10.02.2022", lastSession: "15:03 10.02.2022", id: 1, blocked: false, isAuth: false, checked: false },
-            { name: "Jacob", surname: "Thornton", email: "jac@gmail.com", password: "1", regDate: "09.02.2022", lastSession: "12:01 10.02.2022", id: 2, blocked: false, isAuth: false, checked: false },
-            { name: "Larry", surname: "Bird", email: "bird12@gmail.com	", password: "1", regDate: "10.02.2022", lastSession: "18:12 10.02.2022", id: 3, blocked: false, isAuth: false, checked: false }
+            { name: "Mark", surname: "Otto", email: "otto.m@gmail.com", password: "$2a$10$vxlIr2bSQiC5OFCrIx.n6.xFZL88W5LSfazI5cnECpwrUsuTjCOR6", regDate: "08:10 10.02.2022", lastSession: "15:03 10.02.2022", id: 1, blocked: false, isAuth: false, checked: false },
+            { name: "Jacob", surname: "Thornton", email: "jac@gmail.com", password: "$2a$10$vxlIr2bSQiC5OFCrIx.n6.xFZL88W5LSfazI5cnECpwrUsuTjCOR6", regDate: "16:42 09.02.2022", lastSession: "12:01 10.02.2022", id: 2, blocked: false, isAuth: false, checked: false },
+            { name: "Larry", surname: "Bird", email: "bird12@gmail.com	", password: "$2a$10$vxlIr2bSQiC5OFCrIx.n6.xFZL88W5LSfazI5cnECpwrUsuTjCOR6", regDate: "22:10 10.02.2022", lastSession: "18:12 10.02.2022", id: 3, blocked: false, isAuth: false, checked: false }
         ],
         allCheckBoxState: false
     }
@@ -20,11 +22,10 @@ class App extends Component {
 
     checkLoginData = (e) => {
         e.preventDefault();
-        const mail = e.target.email.value;
-        const pass = e.target.password.value;
-
+        const email = e.target.email.value;
+        const pass = bcrypt.hashSync(e.target.password.value, "$2a$10$vxlIr2bSQiC5OFCrIx.n6.");
         this.state.data.forEach(item => {
-            if (item.email === mail && item.password === pass && !item.blocked) {
+            if (item.email === email && item.password === pass && !item.blocked) {
                 item.isAuth = true;
                 item.lastSession = GetDate();
 
@@ -39,12 +40,13 @@ class App extends Component {
 
     addUser = (e, currentDate) => {
         e.preventDefault();
-        let target = e.target
+        let target = e.target;
+        const hashedPassword = bcrypt.hashSync(target.password.value, "$2a$10$vxlIr2bSQiC5OFCrIx.n6.");
         const newUser = {
             name: target.name.value,
             surname: target.surname.value,
             email: target.email.value,
-            password: target.password.value,
+            password: hashedPassword,
             regDate: currentDate,
             lastSession: null,
             id: this.maxId++,
@@ -75,11 +77,9 @@ class App extends Component {
 
     onCheckboxChange = (e) => {
         const checkboxId = e.target.id;
-
         this.setState(({ data, allCheckBoxState }) => {
             const checkedData = data.map(item =>
                 +checkboxId === item.id ? { ...item, checked: !item.checked } : item);
-
             return {
                 data: checkedData,
                 allCheckBoxState

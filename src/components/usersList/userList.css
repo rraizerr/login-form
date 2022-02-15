@@ -6,3 +6,11 @@
 .blocked > th {
     color: rgb(204, 204, 204) !important;
 }
+
+.offline>th.offline {
+    color: rgb(245 8 8) !important;
+}
+
+.online>th.online {
+    color: rgb(38 181 19) !important;
+}

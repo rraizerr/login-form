@@ -6,9 +6,16 @@ import "./userList.css"
 function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete, onCheckboxAllChange, allCheckBoxState }) {
 
     const usersList = createUsersList.map(({ name, surname, email, regDate, lastSession, id, isAuth, blocked, checked }) => {
-        let classes = [];
+        let classes = ["offline"];
         let status;
-        isAuth ? status = "online" : status = "offline";
+        // isAuth ? status = "online" : status = "offline";
+        if (isAuth) {
+            status = "online";
+            classes.pop("offline");
+            classes.push("online");
+        } else {
+            status = "offline";
+        }
 
         if (blocked) {
             classes.push("blocked")
@@ -25,7 +32,7 @@ function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete
                 <td>{email}</td>
                 <td>{regDate}</td>
                 <td>{lastSession}</td>
-                <th>{status}</th>
+                <th className={classes}>{status}</th>
                 <th>{blocked.toString()}</th>
             </tr>
         )
