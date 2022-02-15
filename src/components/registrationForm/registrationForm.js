@@ -66,12 +66,12 @@ function RegistrationForm({ addUser, usersData }) {
                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Row} md="4" controlId="validationCustomUsername">
-                        <Form.Label>Username</Form.Label>
+                        <Form.Label>E-mail</Form.Label>
                         <InputGroup hasValidation>
                             <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                             <Form.Control
                                 type="text"
-                                placeholder="Username"
+                                placeholder="email"
                                 aria-describedby="inputGroupPrepend"
                                 name="email"
                                 required
