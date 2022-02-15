@@ -8,7 +8,7 @@ function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete
     const usersList = createUsersList.map(({ name, surname, email, regDate, lastSession, id, isAuth, blocked, checked }) => {
         let classes = ["offline"];
         let status;
-        // isAuth ? status = "online" : status = "offline";
+
         if (isAuth) {
             status = "online";
             classes.pop("offline");
@@ -59,7 +59,6 @@ function UserList({ createUsersList, onCheckboxChange, onToggleBlocked, onDelete
                 </thead>
                 <tbody>
                     {usersList.length ? <>{usersList}</> : <tr><td colSpan="8" className="text-center">Users list is empty</td></tr>}
-                    {/* {usersList} */}
                 </tbody>
             </Table>
         </div>
